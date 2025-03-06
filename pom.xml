@@ -11,6 +11,7 @@
     <groupId>com.tencent</groupId>
     <artifactId>springboot-wxcloudrun</artifactId>
     <version>1.0</version>
+    <packaging>war</packaging>
     <name>springboot-wxcloudrun</name>
     <description>Demo project for Spring Boot</description>
     <properties>
@@ -136,12 +137,6 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
-                <includes>
-                    <include>**/*.*</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/webapp</directory>
                 <includes>
                     <include>**/*.*</include>
                 </includes>
