@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template.xhtml">
+
+
+    <ui:define name="content">
+            <h:form id="upload" enctype="multipart/form-data">
+
+    <div class="card">
+
+
+        <div class="card">
+            <h:outputText value="request header:#{testController.userInfo()}"/>
+        </div>
+        <div class="card">
+
+                <p:growl id="messages" showDetail="true"/>
+                <p:fileUpload mode="simple" skinSimple="true"
+                              value="#{testController.originalImageFile}"
+                              multiple="false"/>
+                <p:commandButton value="Submit"  update="messages" process="@form"  ajax="true"
+                                 action="#{testController.handleFileUpload}" styleClass="mt-3 ui-button-outlined block"/>
+
+
+        </div>
+
+        <div class="card">
+
+            <div class="card">
+                    <p:growl id="messages1" showDetail="true"/>
+                <span class="ui-float-label">
+                <p:inputText placeholder="设备名称" value="#{testController.formObject.deviceName}"  />
+            </span>
+                    <span class="ui-float-label">
+                <p:inputText placeholder="制造商" value="#{testController.formObject.factory}" />
+            </span>
+                    <span class="ui-float-label">
+                <p:inputText placeholder="品牌/制造商简称" value="#{testController.formObject.brand}" />
+            </span>
+                    <span class="ui-float-label">
+                <p:inputText placeholder="设备型号" value="#{testController.formObject.pattern}" />
+            </span>
+                    <p:commandButton value="查询" process="@form"  action="#{testController.query()}" update="result"/>
+
+                    <span class="ui-float-label">
+                    <h:outputText id="result" value="#{testController.formObject}" />
+                </span>
+
+            </div>
+        </div>
+    </div>
+                </h:form>
+    </ui:define>
+</ui:composition>
