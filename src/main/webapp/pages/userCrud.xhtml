@@ -1,0 +1,87 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template.xhtml">
+
+
+    <ui:define name="content">
+
+        <div class="card">
+            <h:form id="userForm">
+            <p:dataTable id="userTable" value="#{userBean.users}" var="user" selection="#{userBean.selectedUser}" rowKey="#{user.id}" selectionMode="single">
+                <p:column headerText="ID">
+                    <h:outputText value="#{user.id}"/>
+                </p:column>
+                <p:column headerText="Name">
+                    <h:outputText value="#{user.name}"/>
+                </p:column>
+                <p:column headerText="SSO">
+                    <h:outputText value="#{user.sso}"/>
+                </p:column>
+                <p:column headerText="Phone">
+                    <h:outputText value="#{user.phone}"/>
+                </p:column>
+                <p:column headerText="Email">
+                    <h:outputText value="#{user.email}"/>
+                </p:column>
+                <p:column headerText="OpenID">
+                    <h:outputText value="#{user.openid}"/>
+                </p:column>
+                <p:column headerText="Roles">
+                    <h:outputText value="#{user.roles}"/>
+                </p:column>
+                <p:column headerText="Create Time">
+                    <h:outputText value="#{user.createTime}"/>
+                </p:column>
+                <p:column headerText="Update Time">
+                    <h:outputText value="#{user.updateTime}"/>
+                </p:column>
+                <p:column headerText="Status">
+                    <h:outputText value="#{user.status}"/>
+                </p:column>
+            </p:dataTable>
+
+            <!-- 操作按钮 -->
+            <p:commandButton value="Create" action="#{userBean.createUser}" update=":userForm:userTable"/>
+            <p:commandButton value="Update" action="#{userBean.updateUser}" update=":userForm:userTable"/>
+            <p:commandButton value="Delete" action="#{userBean.deleteUser}" update=":userForm:userTable"/>
+
+            <!-- 用户表单 -->
+
+                <p:panelGrid columns="2">
+                    <p:outputLabel for="id" value="ID:"/>
+                    <p:inputText id="id" value="#{userBean.selectedUser.id}"/>
+
+                    <p:outputLabel for="name" value="Name:"/>
+                    <p:inputText id="name" value="#{userBean.selectedUser.name}"/>
+
+                    <p:outputLabel for="sso" value="SSO:"/>
+                    <p:inputText id="sso" value="#{userBean.selectedUser.sso}"/>
+
+                    <p:outputLabel for="phone" value="Phone:"/>
+                    <p:inputText id="phone" value="#{userBean.selectedUser.phone}"/>
+
+                    <p:outputLabel for="email" value="Email:"/>
+                    <p:inputText id="email" value="#{userBean.selectedUser.email}"/>
+
+                    <p:outputLabel for="openid" value="OpenID:"/>
+                    <p:inputText id="openid" value="#{userBean.selectedUser.openid}"/>
+
+                    <p:outputLabel for="roles" value="Roles:"/>
+                    <p:inputText id="roles" value="#{userBean.selectedUser.roles}"/>
+
+                    <p:outputLabel for="createTime" value="Create Time:"/>
+                    <p:inputText id="createTime" value="#{userBean.selectedUser.createTime}"/>
+
+                    <p:outputLabel for="updateTime" value="Update Time:"/>
+                    <p:inputText id="updateTime" value="#{userBean.selectedUser.updateTime}"/>
+
+                    <p:outputLabel for="status" value="Status:"/>
+                    <p:inputText id="status" value="#{userBean.selectedUser.status}"/>
+                </p:panelGrid>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>

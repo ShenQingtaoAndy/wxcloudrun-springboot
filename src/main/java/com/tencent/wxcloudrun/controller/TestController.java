@@ -14,6 +14,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
+import java.util.Map;
 
 @Named
 @ViewScoped
@@ -36,6 +37,16 @@ public class TestController implements Serializable {
     @PostConstruct
     public void init() {
 
+
+    }
+
+    public  String userInfo(){
+
+        JSONObject jsonObject = new JSONObject();
+        Map<String, String> requestHeaderMap = FacesContext.getCurrentInstance().getExternalContext().getRequestHeaderMap();
+        jsonObject.putAll(requestHeaderMap);
+
+        return jsonObject.toJSONString();
     }
 
     public void query() {
