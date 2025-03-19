@@ -4,7 +4,6 @@ import com.tencent.wxcloudrun.cons.UserStatus;
 import com.tencent.wxcloudrun.dao.UserMapper;
 import com.tencent.wxcloudrun.dto.CreateUserRequest;
 import com.tencent.wxcloudrun.model.User;
-import javafx.print.Collation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
