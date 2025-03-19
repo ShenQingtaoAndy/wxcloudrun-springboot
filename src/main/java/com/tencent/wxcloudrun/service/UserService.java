@@ -27,6 +27,7 @@ public class UserService {
 
         User user = new User();
         user.setOpenid(openId);
+        user.setStatus(UserStatus.NONE.name());
         return user;
 
     }
