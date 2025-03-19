@@ -43,4 +43,7 @@ public interface UserMapper {
    * @return 删除成功的记录数
    */
   int deleteUserById(String id);
+
+
+  List<User> queryUserByOpenId(String openId);
 }

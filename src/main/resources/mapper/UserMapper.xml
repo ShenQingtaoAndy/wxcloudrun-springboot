@@ -23,6 +23,11 @@
         SELECT * FROM `user` WHERE id = #{id}
     </select>
 
+
+    <select id="queryUserByOpenId" resultMap="UserResultMap">
+        SELECT * FROM `user` WHERE openid = #{openid}
+    </select>
+
     <!-- 查询所有用户信息 -->
     <select id="selectAllUsers" resultMap="UserResultMap">
         SELECT * FROM `user`
