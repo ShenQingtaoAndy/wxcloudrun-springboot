@@ -15,9 +15,7 @@
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Toolbar}">
                 <p:ajax event="rowSelect"  update="viewButton"/>
 
-                <p:column headerText="ID">
-                    <h:outputText value="#{user.id}"/>
-                </p:column>
+
                 <p:column headerText="Name">
                     <h:outputText value="#{user.name}"/>
                 </p:column>
@@ -27,9 +25,7 @@
                 <p:column headerText="Phone">
                     <h:outputText value="#{user.phone}"/>
                 </p:column>
-                <p:column headerText="Email">
-                    <h:outputText value="#{user.email}"/>
-                </p:column>
+
                 <p:column headerText="OpenID">
                     <h:outputText value="#{user.openid}"/>
                 </p:column>
@@ -47,7 +43,7 @@
                 </p:column>
 
                 <f:facet name="{Toolbar}">
-                    <p:commandButton id="viewButton" icon="ui-icon-pencil" class="btn btn-sm btn-gray" title="查看"
+                    <p:commandButton id="viewButton" icon="pi pi-pencil" class="btn btn-sm btn-gray" title="查看"
                                      oncomplete="PF('UserViewDialog').show()" update=":UserViewDlg" disabled="#{empty userSettingBean.selectedUser}"/>
 
                 </f:facet>
@@ -57,7 +53,7 @@
             <p:dialog id="UserViewDlg" widgetVar="UserViewDialog" modal="true" resizable="true" draggable="true" appendTo="@(body)" header="修改">
                 <h:form id="AssetInfoViewForm">
                     <h:panelGroup id="display">
-                        <p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group" >
+                        <p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"  rendered="#{userSettingBean.selectedUser != null}" >
                             <h:panelGroup>
                                 <label class="label">SSO</label>
                                 <p:inputText id="sso" value="#{userSettingBean.selectedUser.sso}"  required="true" requiredMessage="Required"/>
@@ -77,9 +73,11 @@
 
                         </p:panelGrid>
                         <br/>
-                        <p:commandButton validateClient="true" actionListener="#{userSettingBean.updateUser}" value="保存" update=":userForm:userTable"
-                                         icon="ui-icon-check" action="handleSubmit(args, 'UserViewDialog');PF('UserViewDialog').hide();"/>
-                        <p:commandButton immediate="true" value="取消" icon="ui-icon-cancel" onclick="PF('UserViewDialog').hide()"/>
+                        <p:commandButton validateClient="true" actionListener="#{userSettingBean.updateUser}" value="保存" update=":userForm:userTable :UserViewDlg"
+                                         styleClass="mr-2" icon="pi pi-check" action="handleSubmit(args, 'UserViewDialog');"/>
+                        <p:commandButton id="deleteButton" process="@this"  styleClass="ui-button-danger mr-2" icon="pi pi-times" value="删除" actionListener="#{userSettingBean.deleteUser}" update=":userForm:userTable :UserViewDlg" disabled="#{userSettingBean.selectedUser.status ne 'NEW'}">
+                        </p:commandButton>
+                        <p:commandButton immediate="true" value="取消" icon="pi pi-sign-out" onclick="PF('UserViewDialog').hide()" style="float: right"/>
                     </h:panelGroup>
                 </h:form>
             </p:dialog>

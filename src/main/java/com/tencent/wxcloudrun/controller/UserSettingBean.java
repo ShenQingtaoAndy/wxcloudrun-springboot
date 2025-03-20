@@ -48,7 +48,8 @@ public class UserSettingBean {
 
     public void deleteUser() {
 
-        selectedUser = new User();
+        userService.deleteUser(selectedUser);
+        selectedUser = null;
     }
 
     public void onSelectUser() {
