@@ -3,6 +3,7 @@ package com.tencent.wxcloudrun.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +18,8 @@ import java.util.Date;
 public class User {
 
     @Id
-    @GeneratedValue(generator = "uuid")
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
     private String id;
     private String name;
     private String sso;

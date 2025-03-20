@@ -1,6 +1,5 @@
 package com.tencent.wxcloudrun;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -12,7 +11,6 @@ import java.util.Collections;
 import javax.faces.webapp.FacesServlet;
 
 @SpringBootApplication
-//@MapperScan(basePackages = {"com.tencent.wxcloudrun.dao"})
 @EnableJpaRepositories(basePackages = "com.tencent.wxcloudrun.dao")
 public class WxCloudRunApplication {  
 

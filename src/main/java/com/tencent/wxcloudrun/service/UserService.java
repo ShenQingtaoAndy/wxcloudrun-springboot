@@ -1,7 +1,6 @@
 package com.tencent.wxcloudrun.service;
 
 import com.tencent.wxcloudrun.cons.UserStatus;
-import com.tencent.wxcloudrun.dao.UserMapper;
 import com.tencent.wxcloudrun.dao.UserRepository;
 import com.tencent.wxcloudrun.dto.CreateUserRequest;
 import com.tencent.wxcloudrun.model.User;
@@ -13,8 +12,6 @@ import java.util.Date;
 @Service
 public class UserService {
 
-    @Autowired
-    private UserMapper userMapper;
 
     @Autowired
     private UserRepository userRepository;

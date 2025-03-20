@@ -11,8 +11,8 @@
         <div class="card">
             <h:form id="userForm">
             <p:dataTable var="user"  id="userTable" value="#{userSettingBean.lazyModel}" selection="#{userSettingBean.selectedUser}"
-                         rowKey="#{user.id}" selectionMode="single" paginator="true" rows="10" rowsPerPageTemplate="5,10,15"
-                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Toolbar}">
+                         rowKey="#{user.id}" selectionMode="single" paginator="true" rows="10" rowsPerPageTemplate="20"
+                         paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Toolbar}">
                 <p:ajax event="rowSelect"  update="viewButton"/>
 
 
@@ -50,7 +50,7 @@
             </p:dataTable>
             </h:form>
 
-            <p:dialog id="UserViewDlg" widgetVar="UserViewDialog" modal="true" resizable="true" draggable="true" appendTo="@(body)" header="修改">
+            <p:dialog id="UserViewDlg" widgetVar="UserViewDialog" width="1000" modal="true" resizable="true" draggable="true" appendTo="@(body)" header="修改">
                 <h:form id="AssetInfoViewForm">
                     <h:panelGroup id="display">
                         <p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"  rendered="#{userSettingBean.selectedUser != null}" >
