@@ -1,0 +1,85 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template.xhtml">
+
+
+    <ui:define name="content">
+
+        <div class="card" >
+            <h:form id="partsObjectForm">
+            <p:dataTable var="requestRecord"  id="recordTable" value="#{requestRecordListBean.lazyModel}" selection="#{requestRecordListBean.selectedRecord}"
+                         rowKey="#{requestRecord.id}" selectionMode="single" paginator="true" rows="10" rowsPerPageTemplate="20"
+                         paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Toolbar}">
+                <p:ajax event="rowSelect" listener="#{requestRecordListBean.onSelectChange}"  update="viewButton"/>
+
+                <p:column style="width:2rem" ariaHeaderText="Row Toggler">
+                    <p:rowToggler rendered="true"/>
+                </p:column>
+
+                <p:column headerText="hospitalName" sortBy="#{requestRecord.hospitalName}" filterBy="#{requestRecord.hospitalName}" filterMatchMode="contains" filterPlaceholder="Filter By Name">
+                    <h:outputText value="#{requestRecord.hospitalName}"/>
+                </p:column>
+                <p:column headerText="status" sortBy="#{requestRecord.status}" filterBy="#{requestRecord.status}" filterMatchMode="contains" filterPlaceholder="Filter By Name">
+                    <h:outputText value="#{requestRecord.status}"/>
+                </p:column>
+                <p:column headerText="requesterName" sortBy="#{requestRecord.requestor.name}" filterBy="#{requestRecord.requestor.name}" filterMatchMode="contains" filterPlaceholder="Filter By Name">
+                    <h:outputText value="#{requestRecord.requestor.name}"/>
+                </p:column>
+                <p:column headerText="requestTime" sortBy="#{requestRecord.createTime}" >
+                    <h:outputText value="#{requestRecord.createTime}"/>
+                </p:column>
+                <p:column headerText="deviceName" sortBy="#{requestRecord.partsObject.deviceName}" filterBy="#{requestRecord.partsObject.deviceName}" filterMatchMode="contains" filterPlaceholder="Filter By Name">
+                    <h:outputText value="#{requestRecord.partsObject.deviceName}"/>
+                </p:column>
+
+                <p:column headerText="deviceCategory" sortBy="#{requestRecord.partsObject.deviceCategory}" filterBy="#{requestRecord.partsObject.deviceCategory}" filterMatchMode="contains" filterPlaceholder="Filter By Name">
+                    <h:outputText value="#{requestRecord.partsObject.deviceCategory}"/>
+                </p:column>
+                <p:column headerText="deviceBrand" sortBy="#{requestRecord.partsObject.deviceBrand}" filterBy="#{requestRecord.partsObject.deviceBrand}" filterMatchMode="contains" filterPlaceholder="Filter By Name">
+                    <h:outputText value="#{requestRecord.partsObject.deviceBrand}"/>
+                </p:column>
+                <p:column headerText="devicePattern" sortBy="#{requestRecord.partsObject.devicePattern}" filterBy="#{requestRecord.partsObject.devicePattern}" filterMatchMode="contains" filterPlaceholder="Filter By Name">
+                    <h:outputText value="#{requestRecord.partsObject.devicePattern}"/>
+                </p:column>
+                <p:column headerText="requestType" sortBy="#{requestRecord.partsObject.type}" filterBy="#{requestRecord.partsObject.type}" filterMatchMode="contains" filterPlaceholder="Filter By Name">
+                    <h:outputText value="#{requestRecord.partsObject.type}"/>
+                </p:column>
+
+
+                <p:rowExpansion>
+                    <div class="product">
+                        <div class="product-list-item">
+
+                        </div>
+                    </div>
+                </p:rowExpansion>
+
+                <f:facet name="{Toolbar}">
+                    <p:commandButton id="viewButton" icon="pi pi-pencil" class="btn btn-sm btn-gray" title="查看"
+                                     oncomplete="PF('viewSidebar').show()" update=":viewBar" disabled="#{empty requestRecordListBean.selectedRecord}"/>
+
+                </f:facet>
+            </p:dataTable>
+            </h:form>
+
+
+            <p:sidebar id="viewBar" widgetVar="viewSidebar" position="right" style="width: 50%" >
+                <h:form id="viewForm">
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"  rendered="#{requestRecordListBean.selectedRecord != null}" >
+                            <h:panelGroup>
+                                <label class="label">deviceName</label>
+                                <p:inputText id="sso" value="#{requestRecordListBean.selectedRecord.hospitalName}"  required="true" requiredMessage="Required"/>
+                            </h:panelGroup>
+                        </p:panelGrid>
+                        <p:commandButton immediate="true" value="取消" icon="pi pi-sign-out" onclick="PF('viewSidebar').hide()" style="float: right"/>
+                    </h:panelGroup>
+                </h:form>
+            </p:sidebar>
+
+        </div>
+    </ui:define>
+</ui:composition>

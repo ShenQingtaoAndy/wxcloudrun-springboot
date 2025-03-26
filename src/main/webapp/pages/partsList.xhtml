@@ -1,0 +1,72 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template.xhtml">
+
+
+    <ui:define name="content">
+
+        <div class="card">
+            <h:form id="partsObjectForm">
+            <p:dataTable var="partsObject"  id="userTable" value="#{partsListBean.lazyModel}" selection="#{partsListBean.selectedPartsObject}"
+                         rowKey="#{partsObject.id}" selectionMode="single" paginator="true" rows="10" rowsPerPageTemplate="20"
+                         paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Toolbar}">
+                <p:ajax event="rowSelect" listener="#{partsListBean.onSelectChange}"  update="viewButton"/>
+
+                <p:column style="width:2rem" ariaHeaderText="Row Toggler">
+                    <p:rowToggler rendered="true"/>
+                </p:column>
+
+                <p:column headerText="deviceName" sortBy="#{partsObject.deviceName}" filterBy="#{partsObject.deviceName}" filterMatchMode="contains" filterPlaceholder="Filter By Name">
+                    <h:outputText value="#{partsObject.deviceName}"/>
+                </p:column>
+                <p:column headerText="deviceCategory">
+                    <h:outputText value="#{partsObject.deviceCategory}"/>
+                </p:column>
+                <p:column headerText="deviceBrand">
+                    <h:outputText value="#{partsObject.deviceBrand}"/>
+                </p:column>
+
+                <p:column headerText="devicePattern">
+                    <h:outputText value="#{partsObject.devicePattern}"/>
+                </p:column>
+                <p:column headerText="type">
+                    <h:outputText value="#{partsObject.type}"/>
+                </p:column>
+
+                <p:rowExpansion>
+                    <div class="product">
+                        <div class="product-list-item">
+
+                        </div>
+                    </div>
+                </p:rowExpansion>
+
+                <f:facet name="{Toolbar}">
+                    <p:commandButton id="viewButton" icon="pi pi-pencil" class="btn btn-sm btn-gray" title="查看"
+                                     oncomplete="PF('viewSidebar').show()" update=":viewBar" disabled="#{empty partsListBean.selectedPartsObject}"/>
+
+                </f:facet>
+            </p:dataTable>
+            </h:form>
+
+
+            <p:sidebar id="viewBar" widgetVar="viewSidebar" position="right" style="width: 50%" >
+                <h:form id="viewForm">
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group"  rendered="#{partsListBean.selectedPartsObject != null}" >
+                            <h:panelGroup>
+                                <label class="label">deviceName</label>
+                                <p:inputText id="sso" value="#{partsListBean.selectedPartsObject.deviceName}"  required="true" requiredMessage="Required"/>
+                            </h:panelGroup>
+                        </p:panelGrid>
+                        <p:commandButton immediate="true" value="取消" icon="pi pi-sign-out" onclick="PF('viewSidebar').hide()" style="float: right"/>
+                    </h:panelGroup>
+                </h:form>
+            </p:sidebar>
+
+        </div>
+    </ui:define>
+</ui:composition>

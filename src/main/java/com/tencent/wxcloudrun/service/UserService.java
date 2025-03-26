@@ -30,6 +30,9 @@ public class UserService {
     }
 
 
+    public  User getUserBySSO(String sso){
+        return userRepository.findBySso(sso);
+    }
 
 
     public User createUserByOpenId(CreateUserRequest request) {

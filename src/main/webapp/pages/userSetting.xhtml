@@ -13,7 +13,7 @@
             <p:dataTable var="user"  id="userTable" value="#{userSettingBean.lazyModel}" selection="#{userSettingBean.selectedUser}"
                          rowKey="#{user.id}" selectionMode="single" paginator="true" rows="10" rowsPerPageTemplate="20"
                          paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Toolbar}">
-                <p:ajax event="rowSelect"  update="viewButton"/>
+                <p:ajax event="rowSelect" listener="#{userSettingBean.onSelectUser}"  update="viewButton"/>
 
 
                 <p:column headerText="Name">
@@ -68,12 +68,25 @@
                             </h:panelGroup>
                             <h:panelGroup>
                                 <label class="label">状态</label>
-                                <p:inputText id="status" value="#{userSettingBean.selectedUser.status}" />
+                                <p:inputText id="status" value="#{userSettingBean.selectedUser.status}" readonly="true" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <label class="label">角色</label>
+                                <p:selectCheckboxMenu id="roles"
+                                                      multiple="true" emptyLabel="Please select..." updateLabel="true"
+                                                      style="min-width: 15rem" panelStyle="width: 30rem" scrollHeight="250"
+                                                      value="#{userSettingBean.selectedRoles}">
+                                    <f:selectItem  itemValue="Admin" itemLabel="Admin" />
+                                    <f:selectItem  itemValue="Sales" itemLabel="Sales" />
+                                    <f:selectItem  itemValue="Purchaser" itemLabel="Purchaser" />
+                                </p:selectCheckboxMenu>
                             </h:panelGroup>
 
                         </p:panelGrid>
                         <br/>
                         <p:commandButton validateClient="true" actionListener="#{userSettingBean.updateUser}" value="保存" update=":userForm:userTable :UserViewDlg"
+                                         styleClass="mr-2" icon="pi pi-check" action="handleSubmit(args, 'UserViewDialog');"/>
+                        <p:commandButton validateClient="true" actionListener="#{userSettingBean.activeUser}" value="激活" update=":userForm:userTable :UserViewDlg"
                                          styleClass="mr-2" icon="pi pi-check" action="handleSubmit(args, 'UserViewDialog');"/>
                         <p:commandButton id="deleteButton" process="@this"  styleClass="ui-button-danger mr-2" icon="pi pi-times" value="删除" actionListener="#{userSettingBean.deleteUser}" update=":userForm:userTable :UserViewDlg" disabled="#{userSettingBean.selectedUser.status ne 'NEW'}">
                         </p:commandButton>
