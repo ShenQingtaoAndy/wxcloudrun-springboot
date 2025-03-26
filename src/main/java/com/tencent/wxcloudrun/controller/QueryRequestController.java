@@ -7,9 +7,12 @@ import com.tencent.wxcloudrun.cons.DeviceCategory;
 import com.tencent.wxcloudrun.dto.NewQueryPartsObjectRequest;
 import com.tencent.wxcloudrun.dto.QueryPartsObjectRequest;
 import com.tencent.wxcloudrun.dto.SearchPartsObjectRequest;
+import com.tencent.wxcloudrun.dto.SearchQueryListRequest;
+import com.tencent.wxcloudrun.model.RequestRecord;
 import com.tencent.wxcloudrun.service.PartsRequestService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,7 +55,6 @@ public class QueryRequestController {
     }
 
     //创建新备件及发起查询
-    //根据已有备件发起查询
     @PostMapping(value = "/api/newQueryPartsObject")
     ApiResponse newQueryPartsObject(@RequestBody NewQueryPartsObjectRequest request) {
 
@@ -62,5 +64,13 @@ public class QueryRequestController {
     }
 
 
+    //创建新备件及发起查询
+    @PostMapping(value = "/api/searchQueryList")
+    ApiResponse searchQueryList(@RequestBody SearchQueryListRequest request) {
+
+        log.info("/api/searchQueryList:" );
+        Page<RequestRecord> res = partsRequestService.searchQueryList(request);
+        return ApiResponse.ok(res);
+    }
 
 }
