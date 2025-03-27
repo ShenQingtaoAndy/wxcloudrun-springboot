@@ -11,7 +11,7 @@
         <div class="card">
             <h:form id="userForm">
             <p:dataTable var="user"  id="userTable" value="#{userSettingBean.lazyModel}" selection="#{userSettingBean.selectedUser}"
-                         rowKey="#{user.id}" selectionMode="single" paginator="true" rows="10" rowsPerPageTemplate="20"
+                         rowKey="#{user.id}" selectionMode="single" paginator="true" rows="10"
                          paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Toolbar}">
                 <p:ajax event="rowSelect" listener="#{userSettingBean.onSelectUser}"  update="viewButton"/>
 

@@ -11,7 +11,7 @@
         <div class="card" >
             <h:form id="partsObjectForm">
             <p:dataTable var="requestRecord"  id="recordTable" value="#{requestRecordListBean.lazyModel}" selection="#{requestRecordListBean.selectedRecord}"
-                         rowKey="#{requestRecord.id}" selectionMode="single" paginator="true" rows="10" rowsPerPageTemplate="20"
+                         rowKey="#{requestRecord.id}" selectionMode="single" paginator="true" rows="10"
                          paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Toolbar}">
                 <p:ajax event="rowSelect" listener="#{requestRecordListBean.onSelectChange}"  update="viewButton"/>
 

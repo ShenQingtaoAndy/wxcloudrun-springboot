@@ -10,10 +10,12 @@
 
         <div class="card">
             <h:form id="partsObjectForm">
-            <p:dataTable var="partsObject"  id="userTable" value="#{partsListBean.lazyModel}" selection="#{partsListBean.selectedPartsObject}"
-                         rowKey="#{partsObject.id}" selectionMode="single" paginator="true" rows="10" rowsPerPageTemplate="20"
-                         paginatorTemplate=" {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {Toolbar}">
+            <p:dataTable var="partsObject"  id="partsTable" value="#{partsListBean.lazyModel}" selection="#{partsListBean.selectedPartsObject}"
+                         rowKey="#{partsObject.id}" selectionMode="single" paginator="true" rows="10"
+                         paginatorTemplate=" {CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Toolbar}"
+                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records" >
                 <p:ajax event="rowSelect" listener="#{partsListBean.onSelectChange}"  update="viewButton"/>
+                <p:ajax event="page"  update="partsTable"/>
 
                 <p:column style="width:2rem" ariaHeaderText="Row Toggler">
                     <p:rowToggler rendered="true"/>

@@ -33,4 +33,5 @@ public class PartsObject {
     private Date updateTime;
     private Date createTime;
     private String remark;
+    private String index_str;
 }

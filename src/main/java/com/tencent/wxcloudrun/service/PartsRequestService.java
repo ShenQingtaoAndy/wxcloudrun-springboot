@@ -35,7 +35,7 @@ public class PartsRequestService {
         page.withSort(Sort.by(Sort.Direction.DESC, "createTime"));
         Page<PartsObject> res = partsObjectRepository.searchPartsObject(request.getDeviceType(),
                 request.getDeviceName(), request.getDeviceCategory(), request.getDeviceBrand(),
-                request.getDevicePattern(), page);
+                request.getDevicePattern(),request.getSearchStr(),  page);
 
         return res;
     }
@@ -62,6 +62,9 @@ public class PartsRequestService {
         partsObject.setDeviceBrand(request.getDeviceBrand());
         partsObject.setDevicePattern(request.getDevicePattern());
         partsObject.setType(request.getType());
+        partsObject.setIndex_str(String.join(" ", partsObject.getDeviceName(),
+                partsObject.getDeviceBrand(),partsObject.getDeviceCategory(),partsObject.getDevicePattern(),
+                partsObject.getPartsPattern(), partsObject.getTubePattern(),partsObject.getProbPattern()));
         partsObject = partsObjectRepository.save(partsObject);
 
         RequestRecord requestRecord = new RequestRecord();

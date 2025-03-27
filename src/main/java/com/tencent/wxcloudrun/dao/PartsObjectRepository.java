@@ -13,7 +13,8 @@ public interface PartsObjectRepository extends JpaRepository<PartsObject, String
             "AND (:deviceCategory IS NULL OR u.deviceCategory = :deviceCategory) " +
             "AND (:deviceBrand IS NULL OR u.deviceBrand LIKE %:deviceBrand% ) " +
             "AND (:devicePattern IS NULL OR u.devicePattern LIKE %:devicePattern% ) " +
+            "AND (:searchStr IS NULL OR u.index_str LIKE %:searchStr% ) " +
             "AND (:type IS NULL OR u.type = :type) ")
-    Page<PartsObject> searchPartsObject(String type , String deviceName, String deviceCategory, String deviceBrand,String devicePattern,  Pageable pageable);
+    Page<PartsObject> searchPartsObject(String type , String deviceName, String deviceCategory, String deviceBrand,String devicePattern,String searchStr, Pageable pageable);
 
 }
