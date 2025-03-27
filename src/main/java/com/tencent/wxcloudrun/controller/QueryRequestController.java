@@ -1,6 +1,7 @@
 package com.tencent.wxcloudrun.controller;
 
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.ImmutableMap;
 import com.tencent.wxcloudrun.config.ApiResponse;
 import com.tencent.wxcloudrun.cons.DeviceCategory;
@@ -32,7 +33,7 @@ public class QueryRequestController {
     @PostMapping(value = "/api/getPartsObject")
     ApiResponse getPartsObject(@RequestBody SearchPartsObjectRequest request) {
 
-        log.info("/api/getPartsObject:" );
+        log.info("/api/getPartsObject: {}", JSON.toJSONString(request) );
         return ApiResponse.ok(partsRequestService.searchPartsObject(request));
     }
 
@@ -49,7 +50,7 @@ public class QueryRequestController {
     @PostMapping(value = "/api/queryPartsObject")
     ApiResponse queryPartsObject(@RequestBody QueryPartsObjectRequest request) {
 
-        log.info("/api/queryPartsObject:" );
+        log.info("/api/queryPartsObject:{}", JSON.toJSONString(request) );
         partsRequestService.queryPartsObject(request);
         return ApiResponse.ok(true);
     }
@@ -58,7 +59,7 @@ public class QueryRequestController {
     @PostMapping(value = "/api/newQueryPartsObject")
     ApiResponse newQueryPartsObject(@RequestBody NewQueryPartsObjectRequest request) {
 
-        log.info("/api/newQueryPartsObject:" );
+        log.info("/api/newQueryPartsObject:{}", JSON.toJSONString(request) );
         partsRequestService.newQueryPartsObject(request);
         return ApiResponse.ok(true);
     }
@@ -68,7 +69,7 @@ public class QueryRequestController {
     @PostMapping(value = "/api/searchQueryList")
     ApiResponse searchQueryList(@RequestBody SearchQueryListRequest request) {
 
-        log.info("/api/searchQueryList:" );
+        log.info("/api/searchQueryList:{}", JSON.toJSONString(request) );
         Page<RequestRecord> res = partsRequestService.searchQueryList(request);
         return ApiResponse.ok(res);
     }
