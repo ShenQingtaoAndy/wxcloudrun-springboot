@@ -4,7 +4,6 @@ import com.tencent.wxcloudrun.cons.RequestStatus;
 import com.tencent.wxcloudrun.dao.PartsObjectRepository;
 import com.tencent.wxcloudrun.dao.RequestRecordRepository;
 import com.tencent.wxcloudrun.dto.NewQueryPartsObjectRequest;
-import com.tencent.wxcloudrun.dto.QueryPartsObjectRequest;
 import com.tencent.wxcloudrun.dto.SearchPartsObjectRequest;
 import com.tencent.wxcloudrun.dto.SearchQueryListRequest;
 import com.tencent.wxcloudrun.model.PartsObject;
@@ -17,6 +16,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 
 @Service
@@ -40,20 +42,10 @@ public class PartsRequestService {
         return res;
     }
 
-    @Transactional
-    public void queryPartsObject(QueryPartsObjectRequest request) {
-        RequestRecord requestRecord = new RequestRecord();
-        requestRecord.setPartsId(request.getPartsId());
-        requestRecord.setRequestorId(request.getRequestorId());
-        requestRecord.setHospitalName(request.getHospitalName());
-        requestRecord.setCreateTime(new Date());
-        requestRecord.setUpdateTime(requestRecord.getCreateTime());
-        requestRecord.setStatus(RequestStatus.New.name());
-        requestRecordRepository.save(requestRecord);
-    }
 
     @Transactional
     public void newQueryPartsObject(NewQueryPartsObjectRequest request) {
+
         PartsObject partsObject = new PartsObject();
         partsObject.setCreateTime(new Date());
         partsObject.setUpdateTime(partsObject.getCreateTime());
@@ -61,16 +53,32 @@ public class PartsRequestService {
         partsObject.setDeviceCategory(request.getDeviceCategory());
         partsObject.setDeviceBrand(request.getDeviceBrand());
         partsObject.setDevicePattern(request.getDevicePattern());
+        partsObject.setProbPattern(request.getProbPattern());
+        partsObject.setTubePattern(request.getTubePattern());
+        partsObject.setPartsPattern(request.getPartsPattern());
         partsObject.setType(request.getType());
         partsObject.setIndex_str(String.join(" ", partsObject.getDeviceName(),
                 partsObject.getDeviceBrand(),partsObject.getDeviceCategory(),partsObject.getDevicePattern(),
                 partsObject.getPartsPattern(), partsObject.getTubePattern(),partsObject.getProbPattern()));
-        partsObject = partsObjectRepository.save(partsObject);
+
+        Optional<PartsObject> stockParts = Optional.ofNullable(request.getPartsId())
+                .flatMap(i-> partsObjectRepository.findById(i));
 
         RequestRecord requestRecord = new RequestRecord();
-        requestRecord.setPartsId(partsObject.getId());
+
+        if(stockParts.isPresent() && Objects.equals(partsObject.getType(),stockParts.get().getType() )
+                && Objects.equals(stockParts.get().getIndex_str(), partsObject.getIndex_str())){
+            requestRecord.setPartsId(stockParts.get().getId());
+        }else{
+            partsObject = partsObjectRepository.save(partsObject);
+            requestRecord.setPartsId(partsObject.getId());
+        }
+
         requestRecord.setRequestorId(request.getRequestorId());
         requestRecord.setHospitalName(request.getHospitalName());
+        requestRecord.setHasCompetition(request.getHasCompetition());
+        requestRecord.setHasIssue(request.getHasIssue());
+        requestRecord.setRequestType(request.getRequestType());
         requestRecord.setCreateTime(partsObject.getCreateTime());
         requestRecord.setUpdateTime(requestRecord.getCreateTime());
         requestRecord.setStatus(RequestStatus.New.name());
@@ -85,6 +93,16 @@ public class PartsRequestService {
                 request.getRequestorId(),  page);
         return res;
 
+    }
+
+
+    public List<RequestRecord> searchQueryListByParts(String partsId) {
+        return requestRecordRepository.SearchQueryPageByParts(partsId);
+    }
+
+    public void updateRecord(RequestRecord editingRecord) {
+        editingRecord.setUpdateTime(new Date());
+        requestRecordRepository.save(editingRecord);
     }
 }
 

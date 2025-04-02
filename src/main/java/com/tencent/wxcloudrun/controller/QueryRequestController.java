@@ -46,14 +46,6 @@ public class QueryRequestController {
         return ApiResponse.ok(Arrays.stream(DeviceCategory.values()).map(i-> ImmutableMap.of("key", i.name(), "value", i.getCategoryName())));
     }
 
-    //根据已有备件发起查询
-    @PostMapping(value = "/api/queryPartsObject")
-    ApiResponse queryPartsObject(@RequestBody QueryPartsObjectRequest request) {
-
-        log.info("/api/queryPartsObject:{}", JSON.toJSONString(request) );
-        partsRequestService.queryPartsObject(request);
-        return ApiResponse.ok(true);
-    }
 
     //创建新备件及发起查询
     @PostMapping(value = "/api/newQueryPartsObject")

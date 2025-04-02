@@ -3,5 +3,8 @@ package com.tencent.wxcloudrun.cons;
 public enum RequestStatus {
 
     New,
-    Answered
+    Processing,
+    Finished,
+    Invalid,
+    ;
 }

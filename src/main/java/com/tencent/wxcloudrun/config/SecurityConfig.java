@@ -15,8 +15,12 @@ public class SecurityConfig {
 
     private final CustomAuthenticationProvider customAuthenticationProvider;
 
-    public SecurityConfig(CustomAuthenticationProvider customAuthenticationProvider) {
+    private final CustomUserDetailsService customUserDetailsService;
+
+    public SecurityConfig(CustomAuthenticationProvider customAuthenticationProvider,
+                          CustomUserDetailsService customUserDetailsService) {
         this.customAuthenticationProvider = customAuthenticationProvider;
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     @Bean
@@ -30,6 +34,7 @@ public class SecurityConfig {
                         .antMatchers("/admin/**").hasRole(UserRole.Admin.name())
                         .anyRequest().authenticated()
                 )
+                .userDetailsService(customUserDetailsService)
                 .formLogin(form -> form
                         .loginPage("/login.html")
                         .loginProcessingUrl("/login")
