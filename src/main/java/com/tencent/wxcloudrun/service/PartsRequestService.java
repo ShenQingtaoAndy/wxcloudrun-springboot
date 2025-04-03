@@ -6,6 +6,7 @@ import com.tencent.wxcloudrun.dao.RequestRecordRepository;
 import com.tencent.wxcloudrun.dto.NewQueryPartsObjectRequest;
 import com.tencent.wxcloudrun.dto.SearchPartsObjectRequest;
 import com.tencent.wxcloudrun.dto.SearchQueryListRequest;
+import com.tencent.wxcloudrun.dto.SearchRequestRecordResponse;
 import com.tencent.wxcloudrun.model.PartsObject;
 import com.tencent.wxcloudrun.model.RequestRecord;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,6 +104,17 @@ public class PartsRequestService {
     public void updateRecord(RequestRecord editingRecord) {
         editingRecord.setUpdateTime(new Date());
         requestRecordRepository.save(editingRecord);
+    }
+
+    public SearchRequestRecordResponse getOneRequestRecord(String requestRecordId) {
+        SearchRequestRecordResponse response = new SearchRequestRecordResponse();
+        requestRecordRepository.findById(requestRecordId).ifPresent(response::setRequestRecord);
+
+        if(null != response.getRequestRecord()){
+            response.setRecords(searchQueryListByParts(response.getRequestRecord().getPartsId()));
+        }
+
+        return response;
     }
 }
 

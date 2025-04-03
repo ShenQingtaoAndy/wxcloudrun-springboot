@@ -5,10 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.google.common.collect.ImmutableMap;
 import com.tencent.wxcloudrun.config.ApiResponse;
 import com.tencent.wxcloudrun.cons.DeviceCategory;
-import com.tencent.wxcloudrun.dto.NewQueryPartsObjectRequest;
-import com.tencent.wxcloudrun.dto.QueryPartsObjectRequest;
-import com.tencent.wxcloudrun.dto.SearchPartsObjectRequest;
-import com.tencent.wxcloudrun.dto.SearchQueryListRequest;
+import com.tencent.wxcloudrun.dto.*;
 import com.tencent.wxcloudrun.model.RequestRecord;
 import com.tencent.wxcloudrun.service.PartsRequestService;
 import lombok.extern.slf4j.Slf4j;
@@ -57,12 +54,21 @@ public class QueryRequestController {
     }
 
 
-    //创建新备件及发起查询
+    //查询请求列表
     @PostMapping(value = "/api/searchQueryList")
     ApiResponse searchQueryList(@RequestBody SearchQueryListRequest request) {
 
         log.info("/api/searchQueryList:{}", JSON.toJSONString(request) );
         Page<RequestRecord> res = partsRequestService.searchQueryList(request);
+        return ApiResponse.ok(res);
+    }
+
+    //查询请求列表
+    @PostMapping(value = "/api/getRequestRecord")
+    ApiResponse getOneRequestRecord(@RequestBody SearchRequestRecordRequest request) {
+
+        log.info("/api/getRequestRecord:{}", JSON.toJSONString(request) );
+        SearchRequestRecordResponse res = partsRequestService.getOneRequestRecord(request.getRequestRecordId());
         return ApiResponse.ok(res);
     }
 
