@@ -19,6 +19,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 
 @Named
 @ViewScoped
@@ -40,6 +42,7 @@ public class RequestRecordListBean {
 
     @Getter
     LazyRequestRecordModel lazyModel;
+
 
     @PostConstruct
     public void init() {

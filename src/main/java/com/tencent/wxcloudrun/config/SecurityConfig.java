@@ -30,6 +30,7 @@ public class SecurityConfig {
                         .antMatchers("/login.html").permitAll()
                         .antMatchers("/login").permitAll()
                         .antMatchers("/api/**").permitAll()
+                        .antMatchers("/mobile/**").permitAll()
                         .antMatchers("/pages/**").hasRole(UserRole.Admin.name())
                         .antMatchers("/admin/**").hasRole(UserRole.Admin.name())
                         .anyRequest().authenticated()
