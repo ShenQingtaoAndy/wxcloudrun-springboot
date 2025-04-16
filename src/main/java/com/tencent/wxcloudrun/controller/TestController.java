@@ -27,8 +27,12 @@ import java.util.Map;
 public class TestController implements Serializable {
 
 
-    private static final String APP_ID = "wx39fea4d428f90a64";
-    private static final String SECRET = "fb9912d4767a68f4909d9eeea619fca1";
+    //testing
+    private static final String APP_ID = "wxa840921ec0f3778e";
+    private static final String SECRET = "79989e84a65e55947148777e49654d26";
+//
+//    private static final String APP_ID = "wx39fea4d428f90a64";
+//    private static final String SECRET = "fb9912d4767a68f4909d9eeea619fca1";
 
     @Getter @Setter
     private UploadedFile file;
