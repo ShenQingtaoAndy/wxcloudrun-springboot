@@ -4,6 +4,11 @@ package com.tencent.wxcloudrun.controller;
 import com.alibaba.fastjson.JSONObject;
 import lombok.Getter;
 import lombok.Setter;
+import me.chanjar.weixin.common.error.WxErrorException;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
+import me.chanjar.weixin.mp.config.impl.WxMpDefaultConfigImpl;
+import org.apache.logging.log4j.util.Strings;
 import org.primefaces.model.file.UploadedFile;
 
 import javax.annotation.PostConstruct;
@@ -12,6 +17,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.util.Map;
@@ -21,6 +27,8 @@ import java.util.Map;
 public class TestController implements Serializable {
 
 
+    private static final String APP_ID = "wx39fea4d428f90a64";
+    private static final String SECRET = "fb9912d4767a68f4909d9eeea619fca1";
 
     @Getter @Setter
     private UploadedFile file;
@@ -81,5 +89,23 @@ public class TestController implements Serializable {
     }
 
 
+    public String getOpenId() throws WxErrorException {
+        // 从请求头或者参数中获取code（微信授权码）
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        HttpServletRequest request  = (HttpServletRequest)externalContext.getRequest();
+
+        String code = request.getParameter("code");
+        if(Strings.isEmpty(code)){
+            return "none";
+        }
+        WxMpDefaultConfigImpl config = new WxMpDefaultConfigImpl();
+        config.setAppId(APP_ID);
+        config.setSecret(SECRET);
+        WxMpService wxMpService = new WxMpServiceImpl();
+        wxMpService.setWxMpConfigStorage(config);
+        // 通过code换取用户的OpenId等信息
+        String openId = wxMpService.getOAuth2Service().getAccessToken(code).getOpenId();
+        return openId;
+    }
 
 }
