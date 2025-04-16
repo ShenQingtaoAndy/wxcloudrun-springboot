@@ -61,15 +61,16 @@ public class WechatController {
         // 创建微信公众号配置对象
         WxMpDefaultConfigImpl config = new WxMpDefaultConfigImpl();
         // 设置微信公众号的 appId
-        config.setAppId("wx39fea4d428f90a64");
+        config.setAppId(APP_ID);
         // 设置微信公众号的 appSecret
-        config.setSecret("fb9912d4767a68f4909d9eeea619fca1");
+        config.setSecret(SECRET);
         // 设置微信公众号的 token
         config.setToken("yourToken");
         // 设置微信公众号的 aesKey
         config.setAesKey("yourAesKey");
         wxMpService.setWxMpConfigStorage(config);
         if (wxMpService.checkSignature(timestamp, nonce, signature)) {
+            log.info("echostr:{}", echostr);
             return echostr;
         }
 
