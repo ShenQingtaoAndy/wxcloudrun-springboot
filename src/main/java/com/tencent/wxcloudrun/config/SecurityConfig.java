@@ -29,6 +29,7 @@ public class SecurityConfig {
                 .authorizeRequests(authorize -> authorize
                         .antMatchers("/login.html").permitAll()
                         .antMatchers("/login").permitAll()
+                        .antMatchers("/enter.html").permitAll()
                         .antMatchers("/api/**").permitAll()
                         .antMatchers("/mobile/mainPage.xhtml").permitAll()
                         .antMatchers("/mobile/**").hasAnyRole(UserRole.Sales.name(),UserRole.Purchaser.name(),UserRole.Admin.name())
