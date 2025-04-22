@@ -1,4 +1,4 @@
-package com.tencent.wxcloudrun.controller;
+package com.tencent.wxcloudrun.controller.beans;
 
 import com.tencent.wxcloudrun.config.LocalUserDetails;
 import com.tencent.wxcloudrun.model.User;

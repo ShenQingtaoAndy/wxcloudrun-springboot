@@ -1,4 +1,4 @@
-package com.tencent.wxcloudrun.controller;
+package com.tencent.wxcloudrun.controller.beans;
 
 
 import com.tencent.wxcloudrun.cons.UserStatus;
@@ -9,13 +9,8 @@ import com.tencent.wxcloudrun.service.UserService;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.util.Strings;
-import org.primefaces.event.SelectEvent;
-import org.primefaces.event.ToggleSelectEvent;
-import org.primefaces.event.UnselectEvent;
 
 import javax.annotation.PostConstruct;
-import javax.el.MethodExpression;
-import javax.faces.event.ActionListener;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;

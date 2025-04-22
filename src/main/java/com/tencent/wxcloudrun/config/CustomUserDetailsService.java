@@ -1,10 +1,10 @@
 package com.tencent.wxcloudrun.config;
 
+import com.tencent.wxcloudrun.model.User;
 import com.tencent.wxcloudrun.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,23 +25,38 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String sso) throws UsernameNotFoundException {
 
-        com.tencent.wxcloudrun.model.User userBySSO = userService.getUserBySSO(sso);
-
+        User userBySSO = userService.getUserBySSO(sso);
         if(null != userBySSO){
-
-            Collection<GrantedAuthority> authorities = new ArrayList<>();
-            Arrays.stream(userBySSO.getRoles().split(","))
-                    .map(i->"ROLE_"+i)
-                    .map(SimpleGrantedAuthority::new)
-                    .forEach(authorities::add);
-            LocalUserDetails localUserDetails = new LocalUserDetails();
-            localUserDetails.setLocalUser(userBySSO);
-            localUserDetails.setUsername(userBySSO.getName());
-            localUserDetails.setAuthorities(authorities);
-            localUserDetails.setPassword("");
-            return localUserDetails;
+            return buildLocalUserDetails(userBySSO);
         }
-
         throw new UsernameNotFoundException("用户 " + sso + " 未找到");
     }
-}    
+
+    public UserDetails loadUserByOpenId(String openId) {
+        User userByOpenId = userService.getUserByOpenId(openId);
+        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority("Mobile");
+        if(null != userByOpenId){
+            LocalUserDetails localUserDetails = buildLocalUserDetails(userByOpenId);
+            localUserDetails.setFromOpenid(true);
+            return localUserDetails;
+        }
+        throw new UsernameNotFoundException("用户 " + openId + " 未找到");
+    }
+
+
+    private LocalUserDetails buildLocalUserDetails(User user) {
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        Arrays.stream(user.getRoles().split(","))
+                .map(i->"ROLE_"+i)
+                .map(SimpleGrantedAuthority::new)
+                .forEach(authorities::add);
+        LocalUserDetails localUserDetails = new LocalUserDetails();
+        localUserDetails.setLocalUser(user);
+        localUserDetails.setUsername(user.getName());
+        localUserDetails.setAuthorities(authorities);
+        localUserDetails.setPassword("");
+        localUserDetails.setFromOpenid(false);
+        return localUserDetails;
+
+    }
+}

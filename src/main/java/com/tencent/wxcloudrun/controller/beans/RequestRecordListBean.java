@@ -1,7 +1,6 @@
-package com.tencent.wxcloudrun.controller;
+package com.tencent.wxcloudrun.controller.beans;
 
 
-import com.tencent.wxcloudrun.config.LocalUserDetails;
 import com.tencent.wxcloudrun.cons.RequestStatus;
 import com.tencent.wxcloudrun.model.RequestRecord;
 import com.tencent.wxcloudrun.model.User;
@@ -10,17 +9,11 @@ import com.tencent.wxcloudrun.service.LazyRequestRecordModel;
 import com.tencent.wxcloudrun.service.PartsRequestService;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.security.core.Authentication;
 
 import javax.annotation.PostConstruct;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.security.Principal;
-import java.util.HashMap;
-import java.util.Map;
 
 @Named
 @ViewScoped

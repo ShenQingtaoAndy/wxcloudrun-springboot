@@ -1,4 +1,4 @@
-package com.tencent.wxcloudrun.controller;
+package com.tencent.wxcloudrun.controller.beans;
 
 
 import com.tencent.wxcloudrun.model.PartsObject;
@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.annotation.PostConstruct;
-import javax.faces.event.ActionListener;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;

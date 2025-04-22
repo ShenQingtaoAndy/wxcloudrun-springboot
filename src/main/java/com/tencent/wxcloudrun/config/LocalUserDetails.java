@@ -19,6 +19,10 @@ public class LocalUserDetails implements UserDetails, Serializable {
     @Getter @Setter
     private boolean enabled;
 
+
+    @Getter @Setter
+    private boolean fromOpenid;
+
     @Getter @Setter
     private Collection<? extends GrantedAuthority> authorities;
 
