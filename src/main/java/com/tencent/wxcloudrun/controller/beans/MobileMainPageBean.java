@@ -68,7 +68,13 @@ public class MobileMainPageBean {
 
         String code = request.getParameter("code");
         if(Strings.isEmpty(code)){
-            return BeansUtil.getUser();
+
+            User user= BeansUtil.getUser();
+            if(null == user){
+                user = new User();
+                user.setStatus(UserStatus.INACTIVE.name());
+            }
+            return user;
         }else{
             String openId = getOpenId(code);
             User userByOpenId = userService.getUserByOpenId(openId);

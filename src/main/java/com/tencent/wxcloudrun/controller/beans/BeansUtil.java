@@ -13,6 +13,9 @@ public class BeansUtil {
 
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         Authentication userPrincipal = (Authentication)externalContext.getUserPrincipal();
+        if (null == userPrincipal) {
+            return null;
+        }
         LocalUserDetails localUserDetails = (LocalUserDetails)userPrincipal.getPrincipal();
         return localUserDetails.getLocalUser();
     }
