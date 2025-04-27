@@ -31,7 +31,7 @@ public class WechatController {
     @Autowired
     private WxMpService weixinMpService;
 
-    @GetMapping("/getOpenId")
+    @GetMapping("/api/getOpenId")
     public String getOpenId(HttpServletRequest request) throws WxErrorException {
         // 从请求头或者参数中获取code（微信授权码）
         String code = request.getParameter("code");
