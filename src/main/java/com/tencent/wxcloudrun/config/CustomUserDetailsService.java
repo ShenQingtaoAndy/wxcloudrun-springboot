@@ -34,13 +34,17 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public UserDetails loadUserByOpenId(String openId) {
         User userByOpenId = userService.getUserByOpenId(openId);
-        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority("Mobile");
-        if(null != userByOpenId){
-            LocalUserDetails localUserDetails = buildLocalUserDetails(userByOpenId);
-            localUserDetails.setFromOpenid(true);
-            return localUserDetails;
+        if(null == userByOpenId){
+            userByOpenId = new User();
+            userByOpenId.setStatus("New");
+            userByOpenId.setOpenid(openId);
+            userByOpenId.setRoles("");
+            userService.updateUser(userByOpenId);
+
         }
-        throw new UsernameNotFoundException("用户 " + openId + " 未找到");
+        LocalUserDetails localUserDetails = buildLocalUserDetails(userByOpenId);
+        localUserDetails.setFromOpenid(true);
+        return localUserDetails;
     }
 
 
