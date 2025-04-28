@@ -20,7 +20,5 @@ mybatis:
 
 
 wechat:
-  app-id: wxb3e6c4e097198887    #小程序
-#  app-id: wxa840921ec0f3778e
-  app-secret:  c766942bb2d05721b4f1d0d5716ed95d  #小程序
-#  app-secret:  79989e84a65e55947148777e49654d26
+  app-id: ${APP_ID}    #小程序
+  app-secret:  ${APP_SECRET}  #小程序
