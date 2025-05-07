@@ -2,6 +2,7 @@ package com.tencent.wxcloudrun.config;
 
 import com.tencent.wxcloudrun.model.User;
 import com.tencent.wxcloudrun.service.UserService;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -48,12 +49,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
 
-    private LocalUserDetails buildLocalUserDetails(User user) {
+    public LocalUserDetails buildLocalUserDetails(User user) {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        Arrays.stream(user.getRoles().split(","))
-                .map(i->"ROLE_"+i)
-                .map(SimpleGrantedAuthority::new)
-                .forEach(authorities::add);
+        if(!Strings.isEmpty(user.getRoles())){
+            Arrays.stream(user.getRoles().split(","))
+                    .map(i->"ROLE_"+i)
+                    .map(SimpleGrantedAuthority::new)
+                    .forEach(authorities::add);
+        }
         LocalUserDetails localUserDetails = new LocalUserDetails();
         localUserDetails.setLocalUser(user);
         localUserDetails.setUsername(user.getName());

@@ -22,7 +22,7 @@
             </div>
 
             <div class="card">
-                <h:panelGroup rendered="#{true || mobileMainPageBean.currentUser.status eq 'NONE'}">
+                <h:panelGroup rendered="#{mobileMainPageBean.currentUser.status eq 'NONE'}">
                     <h:outputText value="申请加入"> </h:outputText>
                     <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group" >
                         <h:panelGroup>

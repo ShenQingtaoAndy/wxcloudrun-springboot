@@ -15,7 +15,7 @@ public class UploadFilter {
     @Bean
     public FilterRegistrationBean<FileUploadFilter> fileUploadFilterFilterRegistration(ServletContext servletContext){
         FilterRegistrationBean<FileUploadFilter> registrationBean = new FilterRegistrationBean<>();
-        registrationBean.addUrlPatterns("*");
+        registrationBean.addUrlPatterns("/pages/*");
         FileUploadFilter fileUploadFilter = new FileUploadFilter();
         servletContext.setInitParameter("primefaces.UPLOADER","commons");
         registrationBean.setFilter(fileUploadFilter);
