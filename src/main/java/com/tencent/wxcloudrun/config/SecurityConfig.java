@@ -31,6 +31,7 @@ public class SecurityConfig {
                         .antMatchers("/login").permitAll()
                         .antMatchers("/loginByWechat").permitAll()
                         .antMatchers("/api/getUser").permitAll()
+                        .antMatchers("/api/getOpenId").permitAll()
                         .antMatchers("/enter.html").permitAll()
 //                        .antMatchers("/api/**").permitAll()
                         .antMatchers("/mobile/mainPage.xhtml").permitAll()

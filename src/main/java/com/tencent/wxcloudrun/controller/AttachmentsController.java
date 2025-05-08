@@ -23,7 +23,8 @@ public class AttachmentsController {
 
     //上传附件 返回附件uid
     @PostMapping(value = "/api/uploadAttachment")
-    ApiResponse uploadAttachment(@RequestParam(value = "file") MultipartFile file, @RequestParam("recordId") String recordId) throws IOException {
+    ApiResponse uploadAttachment(@RequestParam(value = "file") MultipartFile file,
+                                 @RequestParam(value = "recordId", required = false) String recordId) throws IOException {
 
         if(file.isEmpty()){
             return ApiResponse.ok("");

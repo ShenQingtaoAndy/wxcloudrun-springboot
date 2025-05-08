@@ -1,6 +1,10 @@
 package com.tencent.wxcloudrun.dto;
 
+import com.tencent.wxcloudrun.model.FileMeta;
 import lombok.Data;
+
+import javax.persistence.Transient;
+import java.util.List;
 
 @Data
 public class NewQueryPartsObjectRequest {
@@ -20,6 +24,8 @@ public class NewQueryPartsObjectRequest {
     private String hasIssue;
     private String hasCompetition;
     private String requestType;
+
+    private List<FileMeta> attachments;
 
 
 }

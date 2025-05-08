@@ -10,9 +10,10 @@ import java.util.Date;
 @Builder
 public class FileMeta {
 
+    private String id ;
     private String fileName ;
     private String fileType ;
-    private String fileSize ;
+    private Long fileSize ;
     private Date fileUploadDate ;
     private String fileMd5 ;
 

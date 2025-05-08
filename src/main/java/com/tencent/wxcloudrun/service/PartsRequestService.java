@@ -2,24 +2,24 @@ package com.tencent.wxcloudrun.service;
 
 import com.tencent.wxcloudrun.cons.RequestStatus;
 import com.tencent.wxcloudrun.dao.PartsObjectRepository;
+import com.tencent.wxcloudrun.dao.RecordAttachmentRepository;
 import com.tencent.wxcloudrun.dao.RequestRecordRepository;
 import com.tencent.wxcloudrun.dto.NewQueryPartsObjectRequest;
 import com.tencent.wxcloudrun.dto.SearchPartsObjectRequest;
 import com.tencent.wxcloudrun.dto.SearchQueryListRequest;
 import com.tencent.wxcloudrun.dto.SearchRequestRecordResponse;
 import com.tencent.wxcloudrun.model.PartsObject;
+import com.tencent.wxcloudrun.model.RecordAttachment;
 import com.tencent.wxcloudrun.model.RequestRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.transaction.Transactional;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -31,6 +31,9 @@ public class PartsRequestService {
 
     @Autowired
     private RequestRecordRepository requestRecordRepository;
+
+    @Autowired
+    private RecordAttachmentRepository recordAttachmentRepository;
 
 
     public Page<PartsObject> searchPartsObject(SearchPartsObjectRequest request){
@@ -83,7 +86,25 @@ public class PartsRequestService {
         requestRecord.setCreateTime(partsObject.getCreateTime());
         requestRecord.setUpdateTime(requestRecord.getCreateTime());
         requestRecord.setStatus(RequestStatus.New.name());
-        requestRecordRepository.save(requestRecord);
+        requestRecord = requestRecordRepository.save(requestRecord);
+
+        if(!CollectionUtils.isEmpty(request.getAttachments())){
+            List<RecordAttachment> attachments = new ArrayList<>();
+            final String recordId = requestRecord.getId();
+            request.getAttachments().stream().map(i->{
+                RecordAttachment ra = new RecordAttachment();
+                ra.setAttachmentId(i.getId());
+                ra.setFileName(i.getFileName());
+                ra.setRequestId(recordId);
+                ra.setFileSize(i.getFileSize());
+                ra.setCreateTime(new Date());
+                ra.setUpdateTime(ra.getCreateTime());
+                return ra;
+            }).forEach(attachments::add);
+            recordAttachmentRepository.saveAll(attachments);
+        }
+
+
     }
 
     public Page<RequestRecord> searchQueryList(SearchQueryListRequest request) {

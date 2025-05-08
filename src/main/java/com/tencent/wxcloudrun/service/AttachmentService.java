@@ -7,6 +7,7 @@ import com.tencent.wxcloudrun.dao.RecordAttachmentRepository;
 import com.tencent.wxcloudrun.model.AttachmentFile;
 import com.tencent.wxcloudrun.model.FileMeta;
 import com.tencent.wxcloudrun.model.RecordAttachment;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,10 +26,11 @@ public class AttachmentService {
     @Autowired
     private RecordAttachmentRepository recordAttachmentRepository;
 
-    public  String saveAttachment(MultipartFile file, String recordId) throws IOException {
+    public  FileMeta saveAttachment(MultipartFile file, String recordId) throws IOException {
 
         FileMeta fileInfo = FileMeta.builder().fileName(file.getOriginalFilename())
                 .fileType(file.getContentType())
+                .fileSize(file.getSize())
                 .fileUploadDate(new Date()).build();
 
         AttachmentFile attachmentFile = new AttachmentFile();
@@ -37,16 +39,19 @@ public class AttachmentService {
 
         attachmentFile = attachmentFileRepository.save(attachmentFile);
 
-        RecordAttachment recordAttachment = new RecordAttachment();
-        recordAttachment.setAttachmentId(attachmentFile.getId());
-        recordAttachment.setFileName(fileInfo.getFileName());
-        recordAttachment.setRequestId(recordId);
-        recordAttachment.setFileSize(file.getSize());
-        recordAttachment.setCreateTime(new Date());
-        recordAttachment.setUpdateTime(recordAttachment.getCreateTime());
-        recordAttachmentRepository.save(recordAttachment);
+        if(!Strings.isEmpty(recordId)){
+            RecordAttachment recordAttachment = new RecordAttachment();
+            recordAttachment.setAttachmentId(attachmentFile.getId());
+            recordAttachment.setFileName(fileInfo.getFileName());
+            recordAttachment.setRequestId(recordId);
+            recordAttachment.setFileSize(file.getSize());
+            recordAttachment.setCreateTime(new Date());
+            recordAttachment.setUpdateTime(recordAttachment.getCreateTime());
+            recordAttachmentRepository.save(recordAttachment);
+        }
 
-        return attachmentFile.getId();
+        fileInfo.setId(attachmentFile.getId());
+        return fileInfo;
     }
 
     @Transactional
